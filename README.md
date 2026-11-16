@@ -26,6 +26,17 @@ npm run dev
 
 Get keys at https://aistudio.google.com/apikey and https://app.tavily.com.
 
+### Tracing with LangSmith (optional)
+Add these to `server/.env` and restart the server to trace every agent run — model calls, tool calls, inputs and outputs:
+
+```bash
+LANGSMITH_TRACING=true
+LANGSMITH_API_KEY=your-langsmith-api-key   # https://smith.langchain.com → Settings → API Keys
+LANGSMITH_PROJECT=wanderly
+```
+
+Non-US accounts must also set `LANGSMITH_ENDPOINT` (e.g. `https://eu.api.smith.langchain.com`). Each chat thread's runs are tagged with its `thread_id`, so you can filter traces per conversation.
+
 ## API
 | Method | Path | Body | Response |
 |---|---|---|---|
