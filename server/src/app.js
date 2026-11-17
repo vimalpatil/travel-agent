@@ -77,6 +77,11 @@ export function createApp({ agentFactory = getAgent } = {}) {
     if (err.type === "entity.parse.failed") {
       return res.status(400).json({ error: "Invalid JSON body." });
     }
+    // Client errors raised by middleware (e.g. body-parser's 413 "request entity too large").
+    const status = err.status ?? err.statusCode;
+    if (Number.isInteger(status) && status >= 400 && status < 500) {
+      return res.status(status).json({ error: err.expose ? err.message : "Bad request" });
+    }
     console.error(err);
     res.status(500).json({ error: err.message || "Internal server error" });
   });
